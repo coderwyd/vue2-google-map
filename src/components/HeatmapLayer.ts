@@ -1,15 +1,16 @@
-import { defineComponent, PropType, ref, inject, watch, markRaw, onBeforeUnmount } from "vue";
-import equal from "fast-deep-equal";
-import { mapSymbol, apiSymbol } from "../shared/index";
+import equal from 'fast-deep-equal'
+import { defineComponent, inject, markRaw, onBeforeUnmount, ref, watch } from 'vue'
+import { apiSymbol, mapSymbol } from '../shared/index'
+import type { PropType } from 'vue'
 
-type HeatmapLayerOptions = google.maps.visualization.HeatmapLayerOptions;
+type HeatmapLayerOptions = google.maps.visualization.HeatmapLayerOptions
 
-interface ExtendedHeatmapLayerOptions extends Omit<HeatmapLayerOptions, "data"> {
-  data: HeatmapLayerOptions["data"] | (google.maps.LatLngLiteral | { location: google.maps.LatLngLiteral })[];
+interface ExtendedHeatmapLayerOptions extends Omit<HeatmapLayerOptions, 'data'> {
+  data: HeatmapLayerOptions['data'] | (google.maps.LatLngLiteral | { location: google.maps.LatLngLiteral })[]
 }
 
 export default defineComponent({
-  name: "HeatmapLayer",
+  name: 'HeatmapLayer',
   props: {
     options: {
       type: Object as PropType<ExtendedHeatmapLayerOptions>,
@@ -17,59 +18,61 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const heatmapLayer = ref<google.maps.visualization.HeatmapLayer>();
-    const map = inject(mapSymbol, ref());
-    const api = inject(apiSymbol, ref());
+    const heatmapLayer = ref<google.maps.visualization.HeatmapLayer>()
+    const map = inject(mapSymbol, ref())
+    const api = inject(apiSymbol, ref())
 
     watch(
       [map, () => props.options],
       ([_, options], [oldMap, oldOptions]) => {
-        const hasChanged = !equal(options, oldOptions) || map.value !== oldMap;
+        const hasChanged = !equal(options, oldOptions) || map.value !== oldMap
 
         if (map.value && api.value && hasChanged) {
-          const opts: ExtendedHeatmapLayerOptions = structuredClone(options);
+          const opts: ExtendedHeatmapLayerOptions = structuredClone(options)
 
           if (opts.data && !(opts.data instanceof api.value.MVCArray)) {
-            const LatLng = api.value.LatLng;
+            const LatLng = api.value.LatLng
 
             opts.data = opts.data?.map((point) => {
               if (
-                point instanceof LatLng ||
-                ("location" in point && (point.location instanceof LatLng || point.location === null))
+                point instanceof LatLng
+                || ('location' in point && (point.location instanceof LatLng || point.location === null))
               ) {
-                return point;
-              } else {
-                if ("location" in point) {
-                  return { ...point, location: new LatLng(point.location as google.maps.LatLngLiteral) };
+                return point
+              }
+              else {
+                if ('location' in point) {
+                  return { ...point, location: new LatLng(point.location as google.maps.LatLngLiteral) }
                 }
 
-                return new LatLng(point);
+                return new LatLng(point)
               }
-            }) as HeatmapLayerOptions["data"];
+            }) as HeatmapLayerOptions['data']
           }
 
           if (heatmapLayer.value) {
-            heatmapLayer.value.setOptions(opts as HeatmapLayerOptions);
-          } else {
+            heatmapLayer.value.setOptions(opts as HeatmapLayerOptions)
+          }
+          else {
             heatmapLayer.value = markRaw(
               new api.value.visualization.HeatmapLayer({
                 ...opts,
                 map: map.value,
-              } as HeatmapLayerOptions)
-            );
+              } as HeatmapLayerOptions),
+            )
           }
         }
       },
-      { immediate: true }
-    );
+      { immediate: true },
+    )
 
     onBeforeUnmount(() => {
       if (heatmapLayer.value) {
-        heatmapLayer.value.setMap(null);
+        heatmapLayer.value.setMap(null)
       }
-    });
+    })
 
-    return { heatmapLayer };
+    return { heatmapLayer }
   },
   render: () => null,
-});
+})

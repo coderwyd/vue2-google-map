@@ -1,22 +1,22 @@
 export const roadways: google.maps.MapTypeStyle[] = [
   {
-    featureType: "all",
-    elementType: "labels",
+    featureType: 'all',
+    elementType: 'labels',
     stylers: [
       {
-        visibility: "on",
+        visibility: 'on',
       },
     ],
   },
   {
-    featureType: "all",
-    elementType: "labels.text.fill",
+    featureType: 'all',
+    elementType: 'labels.text.fill',
     stylers: [
       {
         saturation: 36,
       },
       {
-        color: "#000000",
+        color: '#000000',
       },
       {
         lightness: 40,
@@ -24,14 +24,14 @@ export const roadways: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "all",
-    elementType: "labels.text.stroke",
+    featureType: 'all',
+    elementType: 'labels.text.stroke',
     stylers: [
       {
-        visibility: "on",
+        visibility: 'on',
       },
       {
-        color: "#000000",
+        color: '#000000',
       },
       {
         lightness: 16,
@@ -39,20 +39,20 @@ export const roadways: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "all",
-    elementType: "labels.icon",
+    featureType: 'all',
+    elementType: 'labels.icon',
     stylers: [
       {
-        visibility: "off",
+        visibility: 'off',
       },
     ],
   },
   {
-    featureType: "administrative",
-    elementType: "geometry.fill",
+    featureType: 'administrative',
+    elementType: 'geometry.fill',
     stylers: [
       {
-        color: "#000000",
+        color: '#000000',
       },
       {
         lightness: 20,
@@ -60,11 +60,11 @@ export const roadways: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "administrative",
-    elementType: "geometry.stroke",
+    featureType: 'administrative',
+    elementType: 'geometry.stroke',
     stylers: [
       {
-        color: "#000000",
+        color: '#000000',
       },
       {
         lightness: 17,
@@ -75,38 +75,38 @@ export const roadways: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "administrative.country",
-    elementType: "labels.text.fill",
+    featureType: 'administrative.country',
+    elementType: 'labels.text.fill',
     stylers: [
       {
-        color: "#e5c163",
+        color: '#e5c163',
       },
     ],
   },
   {
-    featureType: "administrative.locality",
-    elementType: "labels.text.fill",
+    featureType: 'administrative.locality',
+    elementType: 'labels.text.fill',
     stylers: [
       {
-        color: "#c4c4c4",
+        color: '#c4c4c4',
       },
     ],
   },
   {
-    featureType: "administrative.neighborhood",
-    elementType: "labels.text.fill",
+    featureType: 'administrative.neighborhood',
+    elementType: 'labels.text.fill',
     stylers: [
       {
-        color: "#e5c163",
+        color: '#e5c163',
       },
     ],
   },
   {
-    featureType: "landscape",
-    elementType: "geometry",
+    featureType: 'landscape',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#000000",
+        color: '#000000',
       },
       {
         lightness: 20,
@@ -114,35 +114,35 @@ export const roadways: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "poi",
-    elementType: "geometry",
+    featureType: 'poi',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#000000",
+        color: '#000000',
       },
       {
         lightness: 21,
       },
       {
-        visibility: "on",
+        visibility: 'on',
       },
     ],
   },
   {
-    featureType: "poi.business",
-    elementType: "geometry",
+    featureType: 'poi.business',
+    elementType: 'geometry',
     stylers: [
       {
-        visibility: "on",
+        visibility: 'on',
       },
     ],
   },
   {
-    featureType: "road.highway",
-    elementType: "geometry.fill",
+    featureType: 'road.highway',
+    elementType: 'geometry.fill',
     stylers: [
       {
-        color: "#e5c163",
+        color: '#e5c163',
       },
       {
         lightness: 0,
@@ -150,38 +150,38 @@ export const roadways: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "road.highway",
-    elementType: "geometry.stroke",
+    featureType: 'road.highway',
+    elementType: 'geometry.stroke',
     stylers: [
       {
-        visibility: "off",
+        visibility: 'off',
       },
     ],
   },
   {
-    featureType: "road.highway",
-    elementType: "labels.text.fill",
+    featureType: 'road.highway',
+    elementType: 'labels.text.fill',
     stylers: [
       {
-        color: "#ffffff",
+        color: '#ffffff',
       },
     ],
   },
   {
-    featureType: "road.highway",
-    elementType: "labels.text.stroke",
+    featureType: 'road.highway',
+    elementType: 'labels.text.stroke',
     stylers: [
       {
-        color: "#e5c163",
+        color: '#e5c163',
       },
     ],
   },
   {
-    featureType: "road.arterial",
-    elementType: "geometry",
+    featureType: 'road.arterial',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#000000",
+        color: '#000000',
       },
       {
         lightness: 18,
@@ -189,38 +189,38 @@ export const roadways: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "road.arterial",
-    elementType: "geometry.fill",
+    featureType: 'road.arterial',
+    elementType: 'geometry.fill',
     stylers: [
       {
-        color: "#575757",
+        color: '#575757',
       },
     ],
   },
   {
-    featureType: "road.arterial",
-    elementType: "labels.text.fill",
+    featureType: 'road.arterial',
+    elementType: 'labels.text.fill',
     stylers: [
       {
-        color: "#ffffff",
+        color: '#ffffff',
       },
     ],
   },
   {
-    featureType: "road.arterial",
-    elementType: "labels.text.stroke",
+    featureType: 'road.arterial',
+    elementType: 'labels.text.stroke',
     stylers: [
       {
-        color: "#2c2c2c",
+        color: '#2c2c2c',
       },
     ],
   },
   {
-    featureType: "road.local",
-    elementType: "geometry",
+    featureType: 'road.local',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#000000",
+        color: '#000000',
       },
       {
         lightness: 16,
@@ -228,20 +228,20 @@ export const roadways: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "road.local",
-    elementType: "labels.text.fill",
+    featureType: 'road.local',
+    elementType: 'labels.text.fill',
     stylers: [
       {
-        color: "#999999",
+        color: '#999999',
       },
     ],
   },
   {
-    featureType: "transit",
-    elementType: "geometry",
+    featureType: 'transit',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#000000",
+        color: '#000000',
       },
       {
         lightness: 19,
@@ -249,15 +249,15 @@ export const roadways: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "water",
-    elementType: "geometry",
+    featureType: 'water',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#000000",
+        color: '#000000',
       },
       {
         lightness: 17,
       },
     ],
   },
-];
+]

@@ -1,10 +1,10 @@
 export const ultraLight: google.maps.MapTypeStyle[] = [
   {
-    featureType: "water",
-    elementType: "geometry",
+    featureType: 'water',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#e9e9e9",
+        color: '#e9e9e9',
       },
       {
         lightness: 17,
@@ -12,11 +12,11 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "landscape",
-    elementType: "geometry",
+    featureType: 'landscape',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#f5f5f5",
+        color: '#f5f5f5',
       },
       {
         lightness: 20,
@@ -24,11 +24,11 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "road.highway",
-    elementType: "geometry.fill",
+    featureType: 'road.highway',
+    elementType: 'geometry.fill',
     stylers: [
       {
-        color: "#ffffff",
+        color: '#ffffff',
       },
       {
         lightness: 17,
@@ -36,11 +36,11 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "road.highway",
-    elementType: "geometry.stroke",
+    featureType: 'road.highway',
+    elementType: 'geometry.stroke',
     stylers: [
       {
-        color: "#ffffff",
+        color: '#ffffff',
       },
       {
         lightness: 29,
@@ -51,11 +51,11 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "road.arterial",
-    elementType: "geometry",
+    featureType: 'road.arterial',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#ffffff",
+        color: '#ffffff',
       },
       {
         lightness: 18,
@@ -63,11 +63,11 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "road.local",
-    elementType: "geometry",
+    featureType: 'road.local',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#ffffff",
+        color: '#ffffff',
       },
       {
         lightness: 16,
@@ -75,11 +75,11 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "poi",
-    elementType: "geometry",
+    featureType: 'poi',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#f5f5f5",
+        color: '#f5f5f5',
       },
       {
         lightness: 21,
@@ -87,11 +87,11 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "poi.park",
-    elementType: "geometry",
+    featureType: 'poi.park',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#dedede",
+        color: '#dedede',
       },
       {
         lightness: 21,
@@ -99,13 +99,13 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    elementType: "labels.text.stroke",
+    elementType: 'labels.text.stroke',
     stylers: [
       {
-        visibility: "on",
+        visibility: 'on',
       },
       {
-        color: "#ffffff",
+        color: '#ffffff',
       },
       {
         lightness: 16,
@@ -113,13 +113,13 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    elementType: "labels.text.fill",
+    elementType: 'labels.text.fill',
     stylers: [
       {
         saturation: 36,
       },
       {
-        color: "#333333",
+        color: '#333333',
       },
       {
         lightness: 40,
@@ -127,19 +127,19 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    elementType: "labels.icon",
+    elementType: 'labels.icon',
     stylers: [
       {
-        visibility: "off",
+        visibility: 'off',
       },
     ],
   },
   {
-    featureType: "transit",
-    elementType: "geometry",
+    featureType: 'transit',
+    elementType: 'geometry',
     stylers: [
       {
-        color: "#f2f2f2",
+        color: '#f2f2f2',
       },
       {
         lightness: 19,
@@ -147,11 +147,11 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "administrative",
-    elementType: "geometry.fill",
+    featureType: 'administrative',
+    elementType: 'geometry.fill',
     stylers: [
       {
-        color: "#fefefe",
+        color: '#fefefe',
       },
       {
         lightness: 20,
@@ -159,11 +159,11 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "administrative",
-    elementType: "geometry.stroke",
+    featureType: 'administrative',
+    elementType: 'geometry.stroke',
     stylers: [
       {
-        color: "#fefefe",
+        color: '#fefefe',
       },
       {
         lightness: 17,
@@ -173,4 +173,4 @@ export const ultraLight: google.maps.MapTypeStyle[] = [
       },
     ],
   },
-];
+]

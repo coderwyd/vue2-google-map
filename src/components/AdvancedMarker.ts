@@ -1,11 +1,12 @@
-import { defineComponent, PropType, toRef, provide, computed, inject, markRaw, onBeforeUnmount, ref, watch } from "vue";
-import { markerSymbol, apiSymbol, mapSymbol, markerClusterSymbol } from "../shared/index";
-import equal from "fast-deep-equal";
+import equal from 'fast-deep-equal'
+import { computed, defineComponent, inject, markRaw, onBeforeUnmount, provide, ref, toRef, watch } from 'vue'
+import { apiSymbol, mapSymbol, markerClusterSymbol, markerSymbol } from '../shared/index'
+import type { PropType } from 'vue'
 
-const markerEvents = ["click", "drag", "dragend", "dragstart", "gmp-click"];
+const markerEvents = ['click', 'drag', 'dragend', 'dragstart', 'gmp-click']
 
 export default defineComponent({
-  name: "AdvancedMarker",
+  name: 'AdvancedMarker',
   props: {
     options: {
       type: Object as PropType<google.maps.marker.AdvancedMarkerElementOptions>,
@@ -18,80 +19,84 @@ export default defineComponent({
   },
   emits: markerEvents,
   setup(props, { emit, expose, slots }) {
-    const options = toRef(props, "options");
-    const pinOptions = toRef(props, "pinOptions");
+    const options = toRef(props, 'options')
+    const pinOptions = toRef(props, 'pinOptions')
 
-    const marker = ref<google.maps.marker.AdvancedMarkerElement>();
+    const marker = ref<google.maps.marker.AdvancedMarkerElement>()
 
-    const map = inject(mapSymbol, ref());
-    const api = inject(apiSymbol, ref());
-    const markerCluster = inject(markerClusterSymbol, ref());
+    const map = inject(mapSymbol, ref())
+    const api = inject(apiSymbol, ref())
+    const markerCluster = inject(markerClusterSymbol, ref())
 
     const isMarkerInCluster = computed(
-      () => !!(markerCluster.value && api.value && marker.value instanceof google.maps.marker.AdvancedMarkerElement)
-    );
+      () => !!(markerCluster.value && api.value && marker.value instanceof google.maps.marker.AdvancedMarkerElement),
+    )
 
     watch(
       [map, options, pinOptions],
-      async (_, [oldMap, oldOptions, oldPinOptions]) => {
-        const hasOptionChange = !equal(options.value, oldOptions) || !equal(pinOptions.value, oldPinOptions);
-        const hasChanged = hasOptionChange || map.value !== oldMap;
+      (_, [oldMap, oldOptions, oldPinOptions]) => {
+        const hasOptionChange = !equal(options.value, oldOptions) || !equal(pinOptions.value, oldPinOptions)
+        const hasChanged = hasOptionChange || map.value !== oldMap
 
-        if (!map.value || !api.value || !hasChanged) return;
+        if (!map.value || !api.value || !hasChanged)
+          return
 
-        const { AdvancedMarkerElement, PinElement } = api.value.marker;
+        const { AdvancedMarkerElement, PinElement } = api.value.marker
 
         if (marker.value) {
-          const { map: _, content, ...otherOptions } = options.value;
+          const { map: _, content, ...otherOptions } = options.value
 
           Object.assign(marker.value, {
             content: pinOptions.value ? new PinElement(pinOptions.value).element : content,
             ...otherOptions,
-          });
+          })
 
           if (isMarkerInCluster.value) {
-            markerCluster.value?.removeMarker(marker.value);
-            markerCluster.value?.addMarker(marker.value);
+            markerCluster.value?.removeMarker(marker.value)
+            markerCluster.value?.addMarker(marker.value)
           }
-        } else {
+        }
+        else {
           if (pinOptions.value) {
-            options.value.content = new PinElement(pinOptions.value).element;
+            options.value.content = new PinElement(pinOptions.value).element
           }
 
-          marker.value = markRaw(new AdvancedMarkerElement(options.value));
+          marker.value = markRaw(new AdvancedMarkerElement(options.value))
 
           if (isMarkerInCluster.value) {
-            markerCluster.value?.addMarker(marker.value);
-          } else {
-            marker.value.map = map.value;
+            markerCluster.value?.addMarker(marker.value)
+          }
+          else {
+            marker.value.map = map.value
           }
 
           markerEvents.forEach((event) => {
-            marker.value?.addListener(event, (e: unknown) => emit(event, e));
-          });
+            marker.value?.addListener(event, (e: unknown) => emit(event, e))
+          })
         }
       },
       {
         immediate: true,
-      }
-    );
+      },
+    )
 
     onBeforeUnmount(() => {
       if (marker.value) {
-        api.value?.event.clearInstanceListeners(marker.value);
+        api.value?.event.clearInstanceListeners(marker.value)
 
         if (isMarkerInCluster.value) {
-          markerCluster.value?.removeMarker(marker.value);
-        } else {
-          marker.value.map = null;
+          markerCluster.value?.removeMarker(marker.value)
+        }
+        else {
+          marker.value.map = null
         }
       }
-    });
+    })
 
-    provide(markerSymbol, marker);
+    provide(markerSymbol, marker)
 
-    expose({ marker });
+    expose({ marker })
 
-    return () => slots.default?.();
+    return () => slots.default?.()
   },
-});
+})

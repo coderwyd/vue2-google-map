@@ -1,36 +1,38 @@
 <script lang="ts">
-import { defineComponent, PropType, ref, onMounted, onBeforeUnmount, watch, toRef, provide, markRaw } from "vue";
-import { mapSymbol, apiSymbol, mapTilesLoadedSymbol, customMarkerClassSymbol } from "../shared/index";
-import { Loader, Library } from "@googlemaps/js-api-loader";
-import { createCustomMarkerClass } from "../utils";
-import { IControlPosition } from "../@types/index";
+import { Loader } from '@googlemaps/js-api-loader'
+import { defineComponent, markRaw, onBeforeUnmount, onMounted, provide, ref, toRef, watch } from 'vue'
+import { apiSymbol, customMarkerClassSymbol, mapSymbol, mapTilesLoadedSymbol } from '../shared/index'
+import { createCustomMarkerClass } from '../utils'
+import type { IControlPosition } from '../@types/index'
+import type { Library } from '@googlemaps/js-api-loader'
+import type { PropType } from 'vue'
 
-let loaderInstance: Loader | undefined;
+let loaderInstance: Loader | undefined
 
 const mapEvents = [
-  "bounds_changed",
-  "center_changed",
-  "click",
-  "contextmenu",
-  "dblclick",
-  "drag",
-  "dragend",
-  "dragstart",
-  "heading_changed",
-  "idle",
-  "isfractionalzoomenabled_changed",
-  "mapcapabilities_changed",
-  "maptypeid_changed",
-  "mousemove",
-  "mouseout",
-  "mouseover",
-  "projection_changed",
-  "renderingtype_changed",
-  "rightclick",
-  "tilesloaded",
-  "tilt_changed",
-  "zoom_changed",
-];
+  'bounds_changed',
+  'center_changed',
+  'click',
+  'contextmenu',
+  'dblclick',
+  'drag',
+  'dragend',
+  'dragstart',
+  'heading_changed',
+  'idle',
+  'isfractionalzoomenabled_changed',
+  'mapcapabilities_changed',
+  'maptypeid_changed',
+  'mousemove',
+  'mouseout',
+  'mouseover',
+  'projection_changed',
+  'renderingtype_changed',
+  'rightclick',
+  'tilesloaded',
+  'tilt_changed',
+  'zoom_changed',
+]
 
 export default defineComponent({
   props: {
@@ -39,15 +41,15 @@ export default defineComponent({
     },
     apiKey: {
       type: String,
-      default: "",
+      default: '',
     },
     version: {
       type: String,
-      default: "weekly",
+      default: 'weekly',
     },
     libraries: {
       type: Array as PropType<Library[]>,
-      default: () => ["places", "marker"],
+      default: () => ['places', 'marker'],
     },
     region: {
       type: String,
@@ -107,7 +109,7 @@ export default defineComponent({
       required: false,
     },
     gestureHandling: {
-      type: String as PropType<"cooperative" | "greedy" | "none" | "auto">,
+      type: String as PropType<'cooperative' | 'greedy' | 'none' | 'auto'>,
       required: false,
     },
     heading: {
@@ -226,36 +228,37 @@ export default defineComponent({
     },
     nonce: {
       type: String,
-      default: "",
+      default: '',
     },
   },
 
   emits: mapEvents,
 
   setup(props, { emit }) {
-    const mapRef = ref<HTMLElement>();
-    const ready = ref(false);
+    const mapRef = ref<HTMLElement>()
+    const ready = ref(false)
 
-    const map = ref<google.maps.Map>();
-    const api = ref<typeof google.maps>();
+    const map = ref<google.maps.Map>()
+    const api = ref<typeof google.maps>()
 
-    const mapTilesLoaded = ref(false);
+    const mapTilesLoaded = ref(false)
 
-    provide(mapSymbol, map);
-    provide(apiSymbol, api);
-    provide(mapTilesLoadedSymbol, mapTilesLoaded);
+    provide(mapSymbol, map)
+    provide(apiSymbol, api)
+    provide(mapTilesLoadedSymbol, mapTilesLoaded)
 
     const resolveOptions = (): google.maps.MapOptions => {
-      const options: google.maps.MapOptions = { ...props };
-      const keys = Object.keys(options) as (keyof google.maps.MapOptions)[];
+      const options: google.maps.MapOptions = { ...props }
+      const keys = Object.keys(options) as (keyof google.maps.MapOptions)[]
 
       // Strip undefined keys. Without this Map.setOptions doesn't behave very well.
       keys.forEach((key) => {
-        if (options[key] === undefined) delete options[key];
-      });
+        if (options[key] === undefined)
+          delete options[key]
+      })
 
       const createControlOptionsWithPosition = (position?: IControlPosition) =>
-        position ? { position: api.value?.ControlPosition[position] } : {};
+        position ? { position: api.value?.ControlPosition[position] } : {}
 
       // Options where the prop value should not be directly assigned to the map instance
       const otherOptions = {
@@ -266,94 +269,98 @@ export default defineComponent({
         streetViewControlOptions: createControlOptionsWithPosition(props.streetViewControlPosition),
         fullscreenControlOptions: createControlOptionsWithPosition(props.fullscreenControlPosition),
         disableDefaultUI: props.disableDefaultUi,
-      };
+      }
 
-      return { ...options, ...otherOptions };
-    };
+      return { ...options, ...otherOptions }
+    }
 
     const stopWatchingMapApiAndRef = watch(
       [api, map],
       ([newApi, newMap]) => {
-        const api = newApi as typeof google.maps | null;
-        const map = newMap as google.maps.Map | null;
+        const api = newApi as typeof google.maps | null
+        const map = newMap as google.maps.Map | null
 
         if (api && map) {
-          api.event.addListenerOnce(map, "tilesloaded", () => {
-            mapTilesLoaded.value = true;
-          });
+          api.event.addListenerOnce(map, 'tilesloaded', () => {
+            mapTilesLoaded.value = true
+          })
           // As the watcher is immediately invoked if the api and the map was already loaded
           // the watchStopHandler wasn't created because this function has not fully executed
           // therefore i propagate the watchStopHandler execution on the event loop to ensure
           // it exists when its called.
-          setTimeout(stopWatchingMapApiAndRef, 0);
+          setTimeout(stopWatchingMapApiAndRef, 0)
         }
       },
-      { immediate: true }
-    );
+      { immediate: true },
+    )
 
     const loadMapsAPI = () => {
       try {
-        const { apiKey, region, version, language, libraries, nonce } = props;
-        loaderInstance = new Loader({ apiKey, region, version, language, libraries: libraries as Library[], nonce });
-      } catch (err) {
-        // Loader instantiated again with different options, which isn't allowed by js-api-loader
-        console.error(err);
+        const { apiKey, region, version, language, libraries, nonce } = props
+        loaderInstance = new Loader({ apiKey, region, version, language, libraries: libraries as Library[], nonce })
       }
-    };
+      catch (error) {
+        // Loader instantiated again with different options, which isn't allowed by js-api-loader
+        console.error(error)
+      }
+    }
 
     const setupMap = (_google: typeof google) => {
-      api.value = markRaw(_google.maps);
-      map.value = markRaw(new _google.maps.Map(mapRef.value as HTMLElement, resolveOptions()));
-      const CustomMarker = createCustomMarkerClass(api.value);
-      api.value[customMarkerClassSymbol] = CustomMarker;
+      api.value = markRaw(_google.maps)
+      map.value = markRaw(new _google.maps.Map(mapRef.value as HTMLElement, resolveOptions()))
+      const CustomMarker = createCustomMarkerClass(api.value)
+      api.value[customMarkerClassSymbol] = CustomMarker
 
       mapEvents.forEach((event) => {
-        map.value?.addListener(event, (e: unknown) => emit(event, e));
-      });
+        map.value?.addListener(event, (e: unknown) => emit(event, e))
+      })
 
-      ready.value = true;
+      ready.value = true
 
       const otherPropsAsRefs = (Object.keys(props) as (keyof typeof props)[])
         .filter(
-          (key) =>
-            !["apiPromise", "apiKey", "version", "libraries", "region", "language", "center", "zoom", "nonce"].includes(key)
+          key =>
+            !['apiPromise', 'apiKey', 'version', 'libraries', 'region', 'language', 'center', 'zoom', 'nonce'].includes(key),
         )
-        .map((key) => toRef(props, key));
+        .map(key => toRef(props, key))
 
       watch(
         [() => props.center, () => props.zoom, ...otherPropsAsRefs] as const,
         ([center, zoom], [oldCenter, oldZoom]) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { center: _, zoom: __, ...otherOptions } = resolveOptions();
+          const { center: _, zoom: __, ...otherOptions } = resolveOptions()
 
-          map.value?.setOptions(otherOptions);
+          map.value?.setOptions(otherOptions)
 
-          if (zoom !== undefined && zoom !== oldZoom) map.value?.setZoom(zoom);
+          if (zoom !== undefined && zoom !== oldZoom)
+            map.value?.setZoom(zoom)
 
-          const centerHasChanged = !oldCenter || center.lng !== oldCenter.lng || center.lat !== oldCenter.lat;
-          if (center && centerHasChanged) map.value?.panTo(center);
-        }
-      );
-    };
+          const centerHasChanged = !oldCenter || center.lng !== oldCenter.lng || center.lat !== oldCenter.lat
+          if (center && centerHasChanged)
+            map.value?.panTo(center)
+        },
+      )
+    }
 
     onMounted(() => {
       if (props.apiPromise && props.apiPromise instanceof Promise) {
-        props.apiPromise.then(setupMap);
-      } else {
+        props.apiPromise.then(setupMap)
+      }
+      else {
         loadMapsAPI();
 
-        (loaderInstance as Loader).load().then(setupMap);
+        (loaderInstance as Loader).load().then(setupMap)
       }
-    });
+    })
 
     onBeforeUnmount(() => {
-      mapTilesLoaded.value = false;
-      if (map.value) api.value?.event.clearInstanceListeners(map.value);
-    });
+      mapTilesLoaded.value = false
+      if (map.value)
+        api.value?.event.clearInstanceListeners(map.value)
+    })
 
-    return { mapRef, ready, map, api, mapTilesLoaded };
+    return { mapRef, ready, map, api, mapTilesLoaded }
   },
-});
+})
 </script>
 
 <template>

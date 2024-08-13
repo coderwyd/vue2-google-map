@@ -1,11 +1,12 @@
-import { useSetupMapComponent } from "../composables/index";
-import { defineComponent, PropType, toRef } from "vue";
-import { polylineEvents } from "../shared/index";
+import { defineComponent, toRef } from 'vue'
+import { useSetupMapComponent } from '../composables/index'
+import { polylineEvents } from '../shared/index'
+import type { PropType } from 'vue'
 
-const rectangleEvents = polylineEvents.concat(["bounds_changed"]);
+const rectangleEvents = polylineEvents.concat(['bounds_changed'])
 
 export default defineComponent({
-  name: "Rectangle",
+  name: 'Rectangle',
   props: {
     options: {
       type: Object as PropType<google.maps.RectangleOptions>,
@@ -14,10 +15,10 @@ export default defineComponent({
   },
   emits: rectangleEvents,
   setup(props, { emit }) {
-    const options = toRef(props, "options");
-    const rectangle = useSetupMapComponent("Rectangle", rectangleEvents, options, emit);
+    const options = toRef(props, 'options')
+    const rectangle = useSetupMapComponent('Rectangle', rectangleEvents, options, emit)
 
-    return { rectangle };
+    return { rectangle }
   },
   render: () => null,
-});
+})

@@ -1,39 +1,43 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "ES2020",
-    "esModuleInterop": true,
-    "useDefineForClassFields": true,
-    "module": "ESNext",
+    "jsx": "preserve",
     "lib": [
       "ES2020",
       "DOM",
       "DOM.Iterable"
     ],
-    "skipLibCheck": true,
-    "types": [
-      "google.maps",
-      "vite/client",
-    ],
+    "useDefineForClassFields": true,
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "paths": {
       "@/*": [
         "src/*"
-      ],
+      ]
     },
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "jsx": "preserve",
-    /* Linting */
+    "types": [
+      "google.maps",
+      "vite/client",
+      "node"
+    ],
+    "allowImportingTsExtensions": true,
     "strict": true,
+    "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
@@ -41,11 +45,6 @@
     "src/**/*.vue",
     "dev/**/*.ts",
     "dev/**/*.vue",
-    "docs/**/*.ts",
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
+    "docs/**/*.ts"
   ]
 }

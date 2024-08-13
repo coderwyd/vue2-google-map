@@ -1,11 +1,12 @@
-import { defineComponent, PropType, toRef } from "vue";
-import { useSetupMapComponent } from "../composables/index";
-import { polylineEvents } from "../shared/index";
+import { defineComponent, toRef } from 'vue'
+import { useSetupMapComponent } from '../composables/index'
+import { polylineEvents } from '../shared/index'
+import type { PropType } from 'vue'
 
-const circleEvents = polylineEvents.concat(["center_changed", "radius_changed"]);
+const circleEvents = polylineEvents.concat(['center_changed', 'radius_changed'])
 
 export default defineComponent({
-  name: "Circle",
+  name: 'Circle',
   props: {
     options: {
       type: Object as PropType<google.maps.CircleOptions>,
@@ -14,10 +15,10 @@ export default defineComponent({
   },
   emits: circleEvents,
   setup(props, { emit }) {
-    const options = toRef(props, "options");
-    const circle = useSetupMapComponent("Circle", circleEvents, options, emit);
+    const options = toRef(props, 'options')
+    const circle = useSetupMapComponent('Circle', circleEvents, options, emit)
 
-    return { circle };
+    return { circle }
   },
   render: () => null,
-});
+})

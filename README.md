@@ -1,4 +1,4 @@
-# vue3-google-map
+# vue2-google-map
 
 ![Build Status](https://github.com/inocan-group/vue3-google-map/actions/workflows/build.yml/badge.svg)
 [![License](https://img.shields.io/github/license/inocan-group/vue3-google-map)](https://github.com/inocan-group/vue3-google-map/blob/develop/LICENSE)
@@ -481,13 +481,13 @@ Regular markers can be customized a great deal but if you need to you can use th
 
 #### Options
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `position` | `{ lat: number, lng: number}` | Sets the marker position. |
+| Parameter     | Type                                                                                                                                            | Description                                                                             |
+| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------- |
+| `position`    | `{ lat: number, lng: number}`                                                                                                                   | Sets the marker position.                                                               |
 | `anchorPoint` | `'CENTER' \| 'TOP_CENTER' \|'BOTTOM_CENTER' \| 'LEFT_CENTER' \| 'RIGHT_CENTER' \| 'TOP_LEFT' \| 'TOP_RIGHT' \| 'BOTTOM_LEFT' \| 'BOTTOM_RIGHT'` | Sets how the marker is anchored relative to it's `position` point. Default is `CENTER`. |
-| `offsetX` | `number` | Horizontal offset from the `position` point. |
-| `offsetY` | `number` | Vertical offset from the `position` point. |
-| `zIndex` | `number` | `z-index` value of the marker. |
+| `offsetX`     | `number`                                                                                                                                        | Horizontal offset from the `position` point.                                            |
+| `offsetY`     | `number`                                                                                                                                        | Vertical offset from the `position` point.                                              |
+| `zIndex`      | `number`                                                                                                                                        | `z-index` value of the marker.                                                          |
 
 ```vue
 <script setup>
